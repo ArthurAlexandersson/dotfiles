@@ -7,7 +7,7 @@ if [ "$input1" = "y" ]
 then
 	echo "installing zsh"
 	sudo apt update
-	sudo apt install zsh -y
+	apt install zsh -y
 else
 	echo "exiting"
 	exit 1
