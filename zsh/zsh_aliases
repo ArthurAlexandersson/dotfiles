@@ -1,9 +1,20 @@
+# embedded stuff
 alias node-patcher='$HOME/cfs/node-patcher/bin/node-patcher'
 alias upload='platformio run --project-dir $(git rev-parse --show-toplevel) -t upload --environment'
 alias flash='node=$(ls $(git rev-parse --show-toplevel)/src/nodes | fzf) && pio run --project-dir $(git rev-parse --show-toplevel) --environment $node && node-patcher $node .pio/build/$node/firmware.hex'
 alias monitor='platformio device monitor'
 
-alias canUp='sudo ip link set can0 up'
-alias canSetup='sudo ip link set can0 type can bitrate 1000000'
-alias canDown='sudo ip link set can0 down'
+# can stuff
+alias can0Up='sudo ip link set can0 up'
+alias can0Setup='sudo ip link set can0 type can bitrate 1000000 restart-ms 10'
+alias can0Down='sudo ip link set can0 down'
+
+alias can1Up='sudo ip link set can1 up'
+alias can1Setup='sudo ip link set can1 type can bitrate 500000 restart-ms 10'
+alias can1Down='sudo ip link set can1 down'
+
+# foxglove stuff
 alias foxglove-bridge='ros2 launch foxglove_bridge foxglove_bridge_launch.xml'
+
+# vim stuff
+alias vim='nvim'
