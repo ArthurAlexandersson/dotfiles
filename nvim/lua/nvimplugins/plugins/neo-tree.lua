@@ -20,4 +20,20 @@ return {
 			},
 		},
 	},
+	config = function(_, opts)
+		require("neo-tree").setup(opts)
+
+		-- Auto-quit Neovim if Neo-tree is the last window
+		vim.api.nvim_create_autocmd("BufEnter", {
+			group = vim.api.nvim_create_augroup("NeoTreeAutoQuit", { clear = true }),
+			callback = function()
+				if #vim.api.nvim_list_wins() == 1 then
+					local bufname = vim.api.nvim_buf_get_name(0)
+					if bufname:match("neo%-tree") then
+						vim.cmd("quit")
+					end
+				end
+			end,
+		})
+	end,
 }
