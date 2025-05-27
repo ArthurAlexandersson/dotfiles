@@ -25,6 +25,11 @@ vim.o.breakindent = true
 -- Save undo history
 vim.o.undofile = true
 
+vim.opt.tabstop = 4 -- Number of visual spaces per TAB
+vim.opt.shiftwidth = 4 -- Number of spaces to use for each step of (auto)indent
+vim.opt.softtabstop = 4 -- Number of spaces a <Tab> counts for in insert mode
+vim.opt.expandtab = true -- Use spaces instead of tabs
+
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.o.ignorecase = true
 vim.o.smartcase = true
@@ -152,6 +157,19 @@ rtp:prepend(lazypath)
 --  To update plugins you can run
 --    :Lazy update
 --
+vim.api.nvim_create_autocmd("BufWritePre", {
+	pattern = { "*.c", "*.cpp", "*.h", "*.hpp", "*.m", "*.mm" },
+	callback = function()
+		local filepath = vim.fn.expand("%:p")
+		local config_path = "/path/to/uncrustify.cfg"
+		local cmd = string.format("uncrustify -c %s --replace %s", config_path, filepath)
+		-- Run the command silently
+		vim.fn.system(cmd)
+		-- Reload the buffer after formatting
+		vim.cmd("edit!")
+	end,
+})
+
 -- NOTE: Here is where you install your plugins.
 require("lazy").setup({
 	-- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
@@ -399,7 +417,7 @@ require("lazy").setup({
 					map("gra", vim.lsp.buf.code_action, "[G]oto Code [A]ction", { "n", "x" })
 
 					-- Find references for the word under your cursor.
-					map("grr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+					map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
 
 					-- Jump to the implementation of the word under your cursor.
 					--  Useful when your language has ways of declaring types without an actual implementation.
@@ -408,11 +426,11 @@ require("lazy").setup({
 					-- Jump to the definition of the word under your cursor.
 					--  This is where a variable was first declared, or where a function is defined, etc.
 					--  To jump back, press <C-t>.
-					map("grd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+					map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
 
 					-- WARN: This is not Goto Definition, this is Goto Declaration.
 					--  For example, in C this would take you to the header.
-					map("grD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
 					-- Fuzzy find all the symbols in your current document.
 					--  Symbols are things like variables, functions, types, etc.
@@ -537,7 +555,7 @@ require("lazy").setup({
 			--  - settings (table): Override the default settings passed when initializing the server.
 			--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 			local servers = {
-				-- clangd = {},
+				clangd = {},
 				-- gopls = {},
 				-- pyright = {},
 				-- rust_analyzer = {},
