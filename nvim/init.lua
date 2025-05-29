@@ -157,18 +157,18 @@ rtp:prepend(lazypath)
 --  To update plugins you can run
 --    :Lazy update
 --
-vim.api.nvim_create_autocmd("BufWritePre", {
-	pattern = { "*.c", "*.cpp", "*.h", "*.hpp", "*.m", "*.mm" },
-	callback = function()
-		local filepath = vim.fn.expand("%:p")
-		local config_path = "/path/to/uncrustify.cfg"
-		local cmd = string.format("uncrustify -c %s --replace %s", config_path, filepath)
-		-- Run the command silently
-		vim.fn.system(cmd)
-		-- Reload the buffer after formatting
-		vim.cmd("edit!")
-	end,
-})
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+-- 	pattern = { "*.c", "*.cpp", "*.h", "*.hpp", "*.m", "*.mm" },
+-- 	callback = function()
+-- 		local filepath = vim.fn.expand("%:p")
+-- 		local config_path = "/path/to/uncrustify.cfg"
+-- 		local cmd = string.format("uncrustify -c %s --replace %s", config_path, filepath)
+-- 		-- Run the command silently
+-- 		vim.fn.system(cmd)
+-- 		-- Reload the buffer after formatting
+-- 		vim.cmd("edit!")
+-- 	end,
+-- })
 
 -- NOTE: Here is where you install your plugins.
 require("lazy").setup({
@@ -620,61 +620,40 @@ require("lazy").setup({
 		end,
 	},
 
-	{ -- Autoformat
+	{
 		"stevearc/conform.nvim",
-		event = { "BufWritePre" },
+		event = { "BufReadPre", "BufNewFile" },
 		cmd = { "ConformInfo" },
 		keys = {
 			{
-				"<leader>f",
+				"<leader>cf",
 				function()
-					require("conform").format({ async = true, lsp_format = "fallback" })
+					require("conform").format({ async = true, lsp_fallback = true })
 				end,
 				mode = "",
-				desc = "[F]ormat buffer",
+				desc = "Format with uncrustify",
 			},
 		},
 		opts = {
-			notify_on_error = false,
-			format_on_save = function(bufnr)
-				-- Disable "format_on_save lsp_fallback" for languages that don't
-				-- have a well standardized coding style. You can add additional
-				-- languages here or re-enable it for the disabled ones.
-				local disable_filetypes = {}
-				if disable_filetypes[vim.bo[bufnr].filetype] then
-					return nil
-				else
-					return {
-						timeout_ms = 500,
-						lsp_format = "fallback",
-					}
-				end
-			end,
-			formatters_by_ft = {
-				lua = { "stylua" },
-				c = { "uncrustify" },
-				cpp = { "uncrustify" },
-				-- Conform can also run multiple formatters sequentially
-				-- python = { "isort", "black" },
-				--
-				-- You can use 'stop_after_first' to run the first available formatter from the list
-				-- javascript = { "prettierd", "prettier", stop_after_first = true },
-			},
 			formatters = {
 				uncrustify = {
 					command = "uncrustify",
-					stdin = false,
-					args = {
-						"-c",
-						vim.fn.expand("~/dotfiles/linters/cfs_code_style.cfg"),
-						"--frag",
-						"-f",
-						vim.api.nvim_buf_get_name(0),
-						"-o",
-						vim.api.nvim_buf_get_name(0),
-					},
+					args = function()
+						local config_file = vim.fn.stdpath("config") .. "/uncrustify.cfg"
+						if vim.fn.filereadable(config_file) == 1 then
+							return { "-c", config_file, "-f", "$FILENAME" }
+						else
+							return { "-f", "$FILENAME" }
+						end
+					end,
+					stdin = true,
 				},
 			},
+			formatters_by_ft = {
+				c = { "uncrustify" },
+				cpp = { "uncrustify" },
+			},
+			-- Remove format_on_save for manual formatting only
 		},
 	},
 
