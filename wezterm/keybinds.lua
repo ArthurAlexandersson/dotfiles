@@ -16,7 +16,7 @@ local workspace_switcher = wezterm.plugin.require("https://github.com/MLFlexer/s
 workspace_switcher.apply_to_config(config)
 
 -- path to zoxide
-workspace_switcher.zoxide_path = '/home/arthur/.local/bin/zoxide'
+workspace_switcher.zoxide_path = '/usr/bin/zoxide'
 
 -- keybindings
 config.keys = {

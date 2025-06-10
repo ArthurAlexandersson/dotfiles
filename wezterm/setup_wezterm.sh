@@ -12,10 +12,11 @@ then
 
     ARCH=$(uname -m)
 
-    if["$ARCH" = "aarch64"] || ["$ARCH" = "arm64"]; then
+    if ["$ARCH" = "aarch64"] || ["$ARCH" = "arm64"]; then
         sudo apt install wezterm
     else
         sudo apt install wezterm-nightly
+    fi
 fi
 
 

@@ -18,3 +18,8 @@ alias foxglove-bridge='ros2 launch foxglove_bridge foxglove_bridge_launch.xml'
 
 # vim stuff
 alias vim='nvim'
+
+# zoxide stuff
+cd() {
+  builtin cd "$@" && zoxide add "$(pwd)"
+}
