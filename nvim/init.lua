@@ -121,6 +121,7 @@ vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 -- handle tabs
 vim.keymap.set('n', '<leader>tn', ':tabnew<CR>', { desc = 'New Tab' })
 vim.keymap.set('n', '<leader>tc', ':tabclose<CR>', { desc = 'Close Tab' })
+vim.keymap.set('n', '<S-Tab>', ':tabprev<CR>', { desc = 'Previous Tab' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -658,6 +659,8 @@ require("lazy").setup({
 			formatters_by_ft = {
 				c = { "uncrustify" },
 				cpp = { "uncrustify" },
+				h = { "uncrustify" },
+				hpp = { "uncrustify" },
 			},
 			-- Remove format_on_save for manual formatting only
 		},
