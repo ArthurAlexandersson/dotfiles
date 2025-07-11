@@ -197,6 +197,21 @@ require("lazy").setup({
 	--            })
 	--        end,
 	--    }
+  {
+    'tpope/vim-fugitive',
+    cmd = { 'Git', 'G' },
+    keys = {
+      { '<leader>gs', ':Git<CR>', desc = 'Git status (fugitive)' },
+    },
+  },  
+  
+  {
+    "FabijanZulj/blame.nvim",
+    lazy = false,
+    config = function()
+      require('blame').setup {}
+    end,
+  },
 	--
 	-- Here is a more advanced example where we pass configuration
 	-- options to `gitsigns.nvim`.
@@ -316,6 +331,8 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
 
       vim.keymap.set("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch: [R]esume last search" })
+      
+      vim.keymap.set("n", "<leader>gb", ":BlameToggle<CR>", {desc = "Git blame (blame.nvim)"})
 
 			-- Slightly advanced example of overriding default behavior and theme
 			vim.keymap.set("n", "<leader>/", function()

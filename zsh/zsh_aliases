@@ -23,3 +23,21 @@ alias vim='nvim'
 cd() {
   builtin cd "$@" && zoxide add "$(pwd)"
 }
+
+
+# cfs stuff
+alias as='cd ~/cfs/autonomous-system/'
+alias nf='cd ~/cfs/node-firmware/'
+alias loncon='cd ~/cfs/autonomous-system/src/control/longitudinal-control/'
+alias mpc='cd ~/cfs/autonomous-system/src/control/ltv-mpc/'
+alias cannabis='cd ~/cfs/autonomous-system/src/general/cannabis/'
+alias pathp='cd ~/cfs/autonomous-system/src/path-planning/path_planning_pipeline/'
+alias lidar='cd ~/cfs/autonomous-system/src/perception/lidar-pipeline/'
+alias hesai='cd ~/cfs/autonomous-system/src/perception/hesai-driver/'
+alias graphslam='cd ~/cfs/autonomous-system/src/mapping/graphslam/'
+alias estimation='cd ~/cfs/autonomous-system/src/estimation/state-estimation/'
+
+cfs() {
+  echo "Available shortcuts:"
+  alias | grep -E 'as=|nf=|loncon=|mpc=|cannabis=|pathp=|lidar=|hesai=|graphslam=|estimation='
+}
