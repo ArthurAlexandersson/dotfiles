@@ -219,10 +219,7 @@ require("lazy").setup({
   },
   {
     'tpope/vim-fugitive',
-    cmd = { 'Git', 'G' },
-    keys = {
-      { '<leader>gs', ':Git<CR>', desc = 'Git status (fugitive)' },
-    },
+    event = "VeryLazy", -- or remove event to load at startup
   },
 
   {
