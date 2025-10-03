@@ -623,6 +623,29 @@ require("lazy").setup({
             },
           },
         },
+
+        jdtls = {
+          root_dir = function(fname)
+            return require("lspconfig").util.root_pattern(".git", "mvnw", "gradlew", "pom.xml", "build.gradle")(fname)
+                or vim.fn.getcwd()
+          end,
+          settings = {
+            java = {
+              signatureHelp = { enabled = true },
+              completion = {
+                favoriteStaticMembers = {
+                  "org.junit.Assert.*",
+                  "org.mockito.Mockito.*",
+                  "org.mockito.ArgumentMatchers.*",
+                  "org.mockito.Answers.*",
+                },
+                importOrder = {
+                  "java", "javax", "org", "com",
+                },
+              },
+            },
+          },
+        },
       }
 
       -- Ensure the servers and tools above are installed
