@@ -71,6 +71,10 @@ ZSH_THEME="robbyrussell"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 #
+if command -v tmux &> /dev/null; then
+  [ -z "$TMUX" ] && [ -n "$PS1" ] && exec tmux
+fi
+
 if [ -f ~/.zsh_aliases ]; then
     source ~/.zsh_aliases
 fi
@@ -112,6 +116,16 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
- source /opt/ros/humble/setup.zsh
- export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
- source $HOME/cfs/cfs-tools/install/setup.zsh
+# source /opt/ros/humble/setup.zsh
+# export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+# source $HOME/cfs/cfs-tools/install/setup.zsh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+source /opt/ros/jazzy/setup.zsh
+export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+source /home/arthur/cfs/cfs-tools/install/setup.zsh
+export DOTNET_ROOT=$HOME/dotnet
+export PATH=$PATH:$HOME/dotnet

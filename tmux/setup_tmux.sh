@@ -1,4 +1,6 @@
 #!/bin/sh
+echo "installing tmux"
+sudo apt install tmux
 
 echo "Setting up tmux configuration..."
 
