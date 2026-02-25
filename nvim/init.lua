@@ -202,8 +202,9 @@ require("lazy").setup({
     opts = {
       wiki_dirs = {
         -- neowiki.nvim supports both absolute and tilde-expanded paths
-        { name = "Work",     path = "~/work/wiki" },
-        { name = "Personal", path = "personal/wiki" },
+        { name = "Master Thesis",     path = "~/vimwiki/masterthesis/wiki" },
+        { name = "Studies", path = "~/vimwiki/studies/wiki" },
+        { name = "Other", path = "~/vimwiki/other/wiki" },
       },
     },
     keys = {
