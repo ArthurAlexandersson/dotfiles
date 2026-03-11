@@ -9,7 +9,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Source and destination
 SRC="$SCRIPT_DIR/tmux.conf"
-DEST="$HOME/.tmux.conf"
+DEST="$HOME/.config/tmux/.tmux.conf"
 
 # Backup existing config if it exists
 if [ -f "$DEST" ]; then
